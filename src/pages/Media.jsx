@@ -37,9 +37,65 @@ const mediaData = [
         date: "2024-08-10",
         email: "user3@example.com"
     },
+    {
+        id: 4,
+        title: "Education board considers new curriculum for rural schools",
+        keywords: ["Education", "Curriculum", "Rural"],
+        date: "2024-08-09",
+        email: "user4@example.com "
+    },
+    {
+        id: 5,
+        title: "Health department launches mobile clinic initiative",
+        keywords: ["Health", "Mobile Clinics"],
+        date: "2024-08-08",
+        email: "user5@example.com"
+    },
+    {
+        id: 6,
+        title: "Environment ministry introduces new conservation policy",
+        keywords: ["Environment", "Conservation"],
+        date: "2024-08-07",
+        email: "user6@example.com"
+    },
+    {
+        id: 7,
+        title: "Transport authority plans expansion of public transit routes",
+        keywords: ["Transport", "Public Transit"],
+        date: "2024-08-06",
+        email: "user7@example.com"
+    },
+    {
+        id: 8,
+        title: " Tourism board promotes eco-friendly travel destinations",
+        keywords: ["Tourism", "Eco-Friendly"],
+        date: "2024-08-05",
+        email: "user8@example.com"
+    },
+    {
+        id: 9,
+        title: "Cultural department announces new arts funding program",
+        keywords: ["Culture", "Arts", "Funding"],
+        date: "2024-08-04",
+        email: "user9@example.com"
+    },
+    {
+        id: 10,
+        title: "Sports authority unveils plan for new community sports centers",
+        keywords: ["Sports", "Community"],
+        date: "2024-08-03",
+        email: "user10@example.com"
+    }
+
 ];
 
 const mediaColumns = [
+     {
+        key: "id",
+        label: "ID",
+        // minWidth: "80px",
+        maxWidth: "120px",
+    },
     {
         key: "title",
         label: "Title",
@@ -50,12 +106,7 @@ const mediaColumns = [
 
             return (
                 <div className="space-y-1">
-                    <a
-                        className="text-blue-600 hover:underline font-medium text-sm"
-                        href="#!"
-                    >
                         {value}
-                    </a>
                     <div className="text-xs text-slate-500 flex flex-wrap items-center gap-1">
                         <span className="text-slate-400 font-semibold">Keywords</span>
                         <span className="text-slate-300">:</span>
@@ -93,13 +144,9 @@ const mediaColumns = [
         label: "Published Date",
         minWidth: "150px",
         maxWidth: "200px",
+        render: (value) => (value)
     },  
-    {
-        key: "id",
-        label: "ID",
-        minWidth: "80px",
-        maxWidth: "120px",
-    },
+
     {
         key: "email",
         label: "Email",
