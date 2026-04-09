@@ -1,43 +1,37 @@
 import React from 'react';
-
+import DynamicTable from '../components/DynamicTable';
 export default function Dashboard() {
     return (
-        <div className="dashboard">
-            <header className="dashboard-header">
-                <h1>Dashboard</h1>
-            </header>
-            
-            <main className="dashboard-main">
-                <section className="stats-grid">
-                    <div className="stat-card">
-                        <h3>Total Users</h3>
-                        <p className="stat-value">1,234</p>
+        <div>
+            <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+            <DynamicTable
+                columns={[
+                    { key: "id", label: "ID" },
+                    { key: "name", label: "Name" },
+                    { key: "email", label: "Email" },
+                ]}
+                data={[
+                    { id: 1, name: "John Doe", email: "john.doe@example.com" },
+                    { id: 2, name: "Jane Smith", email: "jane.smith@example.com" },
+                    { id: 3, name: "Bob Johnson", email: "bob.johnson@example.com" },
+                ]}
+                rowActions={(row) => (
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => alert("Edit " + row.name)}
+                            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => alert("Delete " + row.name)}
+                            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                        >
+                            Delete
+                        </button>
                     </div>
-                    <div className="stat-card">
-                        <h3>Revenue</h3>
-                        <p className="stat-value">$45,678</p>
-                    </div>
-                    <div className="stat-card">
-                        <h3>Orders</h3>
-                        <p className="stat-value">567</p>
-                    </div>
-                    <div className="stat-card">
-                        <h3>Conversion</h3>
-                        <p className="stat-value">3.2%</p>
-                    </div>
-                </section>
-
-                <section className="charts-grid">
-                    <div className="chart-container">
-                        <h2>Recent Activity</h2>
-                        <p>Chart placeholder</p>
-                    </div>
-                    <div className="chart-container">
-                        <h2>Performance</h2>
-                        <p>Chart placeholder</p>
-                    </div>
-                </section>
-            </main>
+                )}
+            />
         </div>
     );
 }
