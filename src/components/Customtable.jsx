@@ -4,7 +4,7 @@ export default function CustomTable({
     columns,
     data = [],
     rowActions,
-    maxHeight = "400px",
+    // maxHeight = "400px",
 }) {
     const [selectedRows, setSelectedRows] = useState([]);
 
@@ -29,7 +29,7 @@ export default function CustomTable({
     return (
         <div
             className="w-full overflow-x-auto"
-            style={{ maxHeight, overflowY: "auto" }}
+           
         >
             <table className="w-full min-w-full text-sm text-left border-collapse">
                 <thead className="bg-gray-100 select-none border-b">
@@ -48,7 +48,7 @@ export default function CustomTable({
                         {columns.map((col) => (
                             <th
                                 key={col.key}
-                                className="text-base font-semibold text-gray-600 whitespace-nowrap px-2 bg-gray-100 sticky top-0 z-10"
+                                className="text-base font-semibold text-gray-600 whitespace-nowrap px-2 py-4 bg-gray-100 sticky top-0 z-10"
                                 style={{
                                     minWidth: col.minWidth,
                                     maxWidth: col.maxWidth,
