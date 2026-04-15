@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { menu } from "./menu";
-import { LuChevronDown, LuChevronUp, LuMenu, LuX } from "react-icons/lu";
+import { LuChevronDown, LuChevronUp, LuMenu } from "react-icons/lu";
+import { useAuth } from "./auth/AuthContext.jsx";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
-    const [open, setOpen] = useState({});
+  const [open, setOpen] = useState({});
   const { pathname } = useLocation();
+  const { hasPermission } = useAuth();
 
   const handleToggle = () => {
     setCollapsed(!collapsed);
@@ -18,6 +20,18 @@ export default function Sidebar() {
   const toggle = (label) => {
     setOpen((prev) => ({ ...prev, [label]: !prev[label] }));
   };
+
+  const visibleMenu = menu
+    .map((item) => {
+      if (!item.children) {
+        return hasPermission(item.permission) ? item : null;
+      }
+
+      const children = item.children.filter((child) => hasPermission(child.permission));
+      return children.length > 0 ? { ...item, children } : null;
+    })
+    .filter(Boolean);
+
   return (
    <aside
         className={`
@@ -35,13 +49,13 @@ export default function Sidebar() {
           </button>
           {/* Logo */}
           <div className="text-xl font-bold text-dark dark:text-white  relative">
-            SAMVAD 2.0
+           Learning & Development RBAC
           </div>
         </div>
 
       {/* Menu */}
         <nav className="flex-1 overflow-auto custom-scrollbar px-2 py-4 space-y-2 text-nowrap shadow-lg dark:bg-gray-800">
-        {menu.map((item) => {
+        {visibleMenu.map((item) => {
             return item.children ? (
               <div key={item.label}>
                   <button

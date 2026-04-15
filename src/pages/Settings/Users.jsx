@@ -2,6 +2,8 @@ import React from "react";
 import CustomTable from "../../components/Customtable";
 import Pagination from "../../components/Pagination";
 import { useState } from "react";
+import { useAuth } from "../../auth/AuthContext.jsx";
+import { PERMISSIONS } from "../../auth/rbac";
 const mediaData = [
     {
         id: 1,
@@ -106,19 +108,9 @@ const mediaColumns = [
                             </span>
                         ))}
                         {keywords.length > 2 && (
-                            <button
-                                type="button"
-                                className="text-xs text-blue-600 font-semibold bg-blue-50 border border-blue-100 px-1 rounded"
-                                onClick={() =>
-                                    onClickViewMore(
-                                        "keyword",
-                                        getFieldLabel(dictionary, "common", "Keywords"),
-                                        keywords
-                                    )
-                                }
-                            >
-                                View More
-                            </button>
+                            <span className="text-xs text-blue-600 font-semibold bg-blue-50 border border-blue-100 px-1 rounded">
+                                +{keywords.length - 2} more
+                            </span>
                         )}
                     </div>
                 </div>
@@ -142,28 +134,37 @@ const mediaColumns = [
     }
 ];
 
-const rowActions = (row) => (
-    <div className="flex gap-2">
-        <button
-            onClick={() => alert("Edit " + row.title)}
-            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-            Edit
-        </button>
-        <button
-            onClick={() => alert("Delete " + row.title)}
-            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-            Delete
-        </button>
-    </div>
-);
 export default function Users() {
-    const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [pageinfo, setPageinfo] = useState({
     totalPages: 1,
   });
+  const { hasPermission } = useAuth();
+  const canCreateUser = hasPermission(PERMISSIONS.SETTINGS_USERS_CREATE);
+  const canEditUser = hasPermission(PERMISSIONS.SETTINGS_USERS_EDIT);
+  const canDeleteUser = hasPermission(PERMISSIONS.SETTINGS_USERS_DELETE);
+
+  const rowActions = (row) => (
+    <div className="flex gap-2">
+      {canEditUser ? (
+        <button
+          onClick={() => alert("Edit " + row.title)}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Edit
+        </button>
+      ) : null}
+      {canDeleteUser ? (
+        <button
+          onClick={() => alert("Delete " + row.title)}
+          className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      ) : null}
+    </div>
+  );
 
   return (
     <div className="bg-gray-50">
@@ -176,10 +177,13 @@ export default function Users() {
           </div>
           <div className="flex gap-2 items-center">
             <input type="text" placeholder="Search..." className="border rounded px-3 py-2 text-sm w-full max-w-xs focus:outline-none focus:ring-1 focus:ring-primary-500 " />
-            <button className="bg-green-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-green-700 transition flex items-center gap-1 whitespace-nowrap text-sm md:text-base"
-            >
-              Add User
-            </button>
+            {canCreateUser ? (
+              <button className="bg-green-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-green-700 transition flex items-center gap-1 whitespace-nowrap text-sm md:text-base">
+                Add User
+              </button>
+            ) : (
+              <span className="text-xs font-medium text-slate-500">Create permission required</span>
+            )}
           </div>
         </div> 
         <div className="pb-2">

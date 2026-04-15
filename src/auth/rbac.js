@@ -1,0 +1,117 @@
+export const PERMISSIONS = {
+  DASHBOARD_VIEW: "dashboard.view",
+  MEDIA_VIEW: "media.view",
+  SEARCH_VIEW: "search.view",
+  UPLOAD_NEWSPAPER: "upload.newspaper",
+  UPLOAD_NEWSCLIP: "upload.newsclip",
+  REPORTS_VIEW: "reports.view",
+  PERCEPTION_REPORT_VIEW: "reports.perception.view",
+  MY_MINISTRY_PERCEPTION_VIEW: "reports.ministry.view",
+  TOPIC_WISE_REPORT_VIEW: "reports.topic.view",
+  EMMC_VIEW: "emmc.view",
+  USER_LOGS_VIEW: "userLogs.view",
+  SETTINGS_PRESS_RELEASE_VIEW: "settings.pressRelease.view",
+  SETTINGS_KEYWORDS_VIEW: "settings.keywords.view",
+  SETTINGS_MINISTRY_ALERT_VIEW: "settings.ministryAlert.view",
+  SETTINGS_USERS_VIEW: "settings.users.view",
+  SETTINGS_USERS_CREATE: "settings.users.create",
+  SETTINGS_USERS_EDIT: "settings.users.edit",
+  SETTINGS_USERS_DELETE: "settings.users.delete",
+  SETTINGS_ROLE_VIEW: "settings.role.view",
+  SETTINGS_ROLE_MANAGE: "settings.role.manage",
+  SETTINGS_PUBLICATION_VIEW: "settings.publication.view",
+  SETTINGS_ZONE_VIEW: "settings.zone.view",
+  SETTINGS_NEWS_PAPERS_VIEW: "settings.newsPapers.view",
+  SETTINGS_WHATSAPP_CONTACTS_VIEW: "settings.whatsappContacts.view",
+  SETTINGS_PREFERENCES_VIEW: "settings.preferences.view",
+  SETTINGS_WHATSAPP_WEBHOOK_VIEW: "settings.whatsappWebhook.view",
+};
+
+const allPermissions = Object.values(PERMISSIONS);
+
+const analystPermissions = [
+  PERMISSIONS.DASHBOARD_VIEW,
+  PERMISSIONS.MEDIA_VIEW,
+  PERMISSIONS.SEARCH_VIEW,
+  PERMISSIONS.UPLOAD_NEWSPAPER,
+  PERMISSIONS.UPLOAD_NEWSCLIP,
+  PERMISSIONS.REPORTS_VIEW,
+  PERMISSIONS.PERCEPTION_REPORT_VIEW,
+  PERMISSIONS.MY_MINISTRY_PERCEPTION_VIEW,
+  PERMISSIONS.TOPIC_WISE_REPORT_VIEW,
+  PERMISSIONS.EMMC_VIEW,
+  PERMISSIONS.USER_LOGS_VIEW,
+  PERMISSIONS.SETTINGS_PRESS_RELEASE_VIEW,
+  PERMISSIONS.SETTINGS_KEYWORDS_VIEW,
+  PERMISSIONS.SETTINGS_MINISTRY_ALERT_VIEW,
+  PERMISSIONS.SETTINGS_PUBLICATION_VIEW,
+  PERMISSIONS.SETTINGS_ZONE_VIEW,
+  PERMISSIONS.SETTINGS_NEWS_PAPERS_VIEW,
+  PERMISSIONS.SETTINGS_PREFERENCES_VIEW,
+];
+
+const viewerPermissions = [
+  PERMISSIONS.DASHBOARD_VIEW,
+  PERMISSIONS.MEDIA_VIEW,
+  PERMISSIONS.SEARCH_VIEW,
+  PERMISSIONS.REPORTS_VIEW,
+  PERMISSIONS.PERCEPTION_REPORT_VIEW,
+  PERMISSIONS.MY_MINISTRY_PERCEPTION_VIEW,
+  PERMISSIONS.TOPIC_WISE_REPORT_VIEW,
+  PERMISSIONS.EMMC_VIEW,
+];
+
+export const ROLE_PERMISSIONS = {
+  admin: allPermissions,
+  analyst: analystPermissions,
+  viewer: viewerPermissions,
+};
+
+export const DEMO_USERS = [
+  {
+    id: 1,
+    name: "Aarav Admin",
+    username: "admin",
+    password: "admin123",
+    role: "admin",
+  },
+  {
+    id: 2,
+    name: "Priya Analyst",
+    username: "analyst",
+    password: "analyst123",
+    role: "analyst",
+  },
+  {
+    id: 3,
+    name: "Vikram Viewer",
+    username: "viewer",
+    password: "viewer123",
+    role: "viewer",
+  },
+];
+
+export const ROUTE_PERMISSIONS = {
+  "/dashboard": PERMISSIONS.DASHBOARD_VIEW,
+  "/media": PERMISSIONS.MEDIA_VIEW,
+  "/search": PERMISSIONS.SEARCH_VIEW,
+  "/upload/upload-news-paper": PERMISSIONS.UPLOAD_NEWSPAPER,
+  "/upload/upload-news-clip": PERMISSIONS.UPLOAD_NEWSCLIP,
+  "/reports": PERMISSIONS.REPORTS_VIEW,
+  "/perception-report": PERMISSIONS.PERCEPTION_REPORT_VIEW,
+  "/my-ministry-perception": PERMISSIONS.MY_MINISTRY_PERCEPTION_VIEW,
+  "/topic-wise-report": PERMISSIONS.TOPIC_WISE_REPORT_VIEW,
+  "/emmc": PERMISSIONS.EMMC_VIEW,
+  "/user-logs": PERMISSIONS.USER_LOGS_VIEW,
+  "/settings/press-release": PERMISSIONS.SETTINGS_PRESS_RELEASE_VIEW,
+  "/settings/keywords": PERMISSIONS.SETTINGS_KEYWORDS_VIEW,
+  "/settings/ministry-alert": PERMISSIONS.SETTINGS_MINISTRY_ALERT_VIEW,
+  "/settings/users": PERMISSIONS.SETTINGS_USERS_VIEW,
+  "/settings/role": PERMISSIONS.SETTINGS_ROLE_VIEW,
+  "/settings/publication": PERMISSIONS.SETTINGS_PUBLICATION_VIEW,
+  "/settings/zone": PERMISSIONS.SETTINGS_ZONE_VIEW,
+  "/settings/news-papers": PERMISSIONS.SETTINGS_NEWS_PAPERS_VIEW,
+  "/settings/whatsapp-contacts": PERMISSIONS.SETTINGS_WHATSAPP_CONTACTS_VIEW,
+  "/settings/preferences": PERMISSIONS.SETTINGS_PREFERENCES_VIEW,
+  "/settings/whatsapp-webhook": PERMISSIONS.SETTINGS_WHATSAPP_WEBHOOK_VIEW,
+};

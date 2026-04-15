@@ -1,5 +1,4 @@
-// AppRoutes.js
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import App from "../App";
 import Dashboard from "../pages/Dashboard";
 import Search from "../pages/search";
@@ -23,44 +22,48 @@ import NewsPapers from "../pages/Settings/NewsPapers";
 import WhatsAppContacts from "../pages/Settings/WhatsAppContacts";
 import Preferences from "../pages/Settings/Preferences";
 import WhatsAppWebhook from "../pages/Settings/WhatsAppWebhook";
+import Login from "../pages/Login";
+import Unauthorized from "../pages/Unauthorized";
+import { RequireAuth, RequirePermission } from "../components/ProtectedRoute";
+import { ROUTE_PERMISSIONS } from "../auth/rbac";
 
 export default function AppRoutes() {
+  const withPermission = (path, element) => (
+    <RequirePermission permission={ROUTE_PERMISSIONS[path]}>{element}</RequirePermission>
+  );
+
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-      {/* Routes with Layout */}
-      <Route path="/" element={<App />}>
-        {/* Main Routes */}
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="search" element={<Search/>} />
-        <Route path="media" element={<Media/>} />
-        
-        {/* Upload Routes */}
-        <Route path="upload/upload-news-paper" element={<UploadNewsPaper />} />
-        <Route path="upload/upload-news-clip" element={<UploadNewsClip />} />
-        
-        {/* Report Routes */}
-        <Route path="reports" element={<Reports />} />
-        <Route path="perception-report" element={<PerceptionReport />} />
-        <Route path="my-ministry-perception" element={<MyMinistryPerception />} />
-        <Route path="topic-wise-report" element={<TopicWiseReport />} />
-        
-        {/* Other Routes */}
-        <Route path="emmc" element={<EMMC />} />
-        <Route path="user-logs" element={<UserLogs />} />
-        
-        {/* Settings Routes */}
-        <Route path="settings/press-release" element={<PressRelease />} />
-        <Route path="settings/keywords" element={<Keywords />} />
-        <Route path="settings/ministry-alert" element={<MinistryAlert />} />
-        <Route path="settings/users" element={<Users />} />
-        <Route path="settings/role" element={<Role />} />
-        <Route path="settings/publication" element={<Publication />} />
-        <Route path="settings/zone" element={<Zone />} />
-        <Route path="settings/news-papers" element={<NewsPapers />} />
-        <Route path="settings/whatsapp-contacts" element={<WhatsAppContacts />} />
-        <Route path="settings/preferences" element={<Preferences />} />
-        <Route path="settings/whatsapp-webhook" element={<WhatsAppWebhook />} />
+      <Route element={<RequireAuth />}>
+        <Route path="/" element={<App />}>
+          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route path="dashboard" element={withPermission("/dashboard", <Dashboard />)} />
+          <Route path="search" element={withPermission("/search", <Search />)} />
+          <Route path="media" element={withPermission("/media", <Media />)} />
+          <Route path="upload/upload-news-paper" element={withPermission("/upload/upload-news-paper", <UploadNewsPaper />)} />
+          <Route path="upload/upload-news-clip" element={withPermission("/upload/upload-news-clip", <UploadNewsClip />)} />
+          <Route path="reports" element={withPermission("/reports", <Reports />)} />
+          <Route path="perception-report" element={withPermission("/perception-report", <PerceptionReport />)} />
+          <Route path="my-ministry-perception" element={withPermission("/my-ministry-perception", <MyMinistryPerception />)} />
+          <Route path="topic-wise-report" element={withPermission("/topic-wise-report", <TopicWiseReport />)} />
+          <Route path="emmc" element={withPermission("/emmc", <EMMC />)} />
+          <Route path="user-logs" element={withPermission("/user-logs", <UserLogs />)} />
+          <Route path="settings/press-release" element={withPermission("/settings/press-release", <PressRelease />)} />
+          <Route path="settings/keywords" element={withPermission("/settings/keywords", <Keywords />)} />
+          <Route path="settings/ministry-alert" element={withPermission("/settings/ministry-alert", <MinistryAlert />)} />
+          <Route path="settings/users" element={withPermission("/settings/users", <Users />)} />
+          <Route path="settings/role" element={withPermission("/settings/role", <Role />)} />
+          <Route path="settings/publication" element={withPermission("/settings/publication", <Publication />)} />
+          <Route path="settings/zone" element={withPermission("/settings/zone", <Zone />)} />
+          <Route path="settings/news-papers" element={withPermission("/settings/news-papers", <NewsPapers />)} />
+          <Route path="settings/whatsapp-contacts" element={withPermission("/settings/whatsapp-contacts", <WhatsAppContacts />)} />
+          <Route path="settings/preferences" element={withPermission("/settings/preferences", <Preferences />)} />
+          <Route path="settings/whatsapp-webhook" element={withPermission("/settings/whatsapp-webhook", <WhatsAppWebhook />)} />
+        </Route>
       </Route>
 
       <Route path="*" element={<h1>404 - Not Found</h1>} />
