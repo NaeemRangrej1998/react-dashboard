@@ -35,7 +35,7 @@ export default function Sidebar() {
           </button>
           {/* Logo */}
           <div className="text-xl font-bold text-dark dark:text-white  relative">
-            SAMVAD 2.0
+            Learning RBAC Dashboard
           </div>
         </div>
 

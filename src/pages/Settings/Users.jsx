@@ -2,6 +2,7 @@ import React from "react";
 import CustomTable from "../../components/Customtable";
 import Pagination from "../../components/Pagination";
 import { useState } from "react";
+import CommonModal from "../../components/CommonModal";
 const mediaData = [
     {
         id: 1,
@@ -77,7 +78,7 @@ const mediaData = [
 ];
 
 const mediaColumns = [
-     {
+    {
         key: "id",
         label: "ID",
         // minWidth: "80px",
@@ -93,7 +94,7 @@ const mediaColumns = [
 
             return (
                 <div className="space-y-1">
-                        {value}
+                    {value}
                     <div className="text-xs text-slate-500 flex flex-wrap items-center gap-1">
                         <span className="text-slate-400 font-semibold">Keywords</span>
                         <span className="text-slate-300">:</span>
@@ -132,7 +133,7 @@ const mediaColumns = [
         minWidth: "150px",
         maxWidth: "200px",
         render: (value) => (value)
-    },  
+    },
 
     {
         key: "email",
@@ -142,10 +143,18 @@ const mediaColumns = [
     }
 ];
 
-const rowActions = (row) => (
+
+export default function Users() {
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [pageinfo, setPageinfo] = useState({
+        totalPages: 1,
+    });
+    const[isDeleteModalOpen,setIsDeleteModalOpen] = useState(false);    
+    const rowActions = (row) => (
     <div className="flex gap-2">
         <button
-            onClick={() => alert("Edit " + row.title)}
+            onClick={() => setIsDeleteModalOpen(true)}
             className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
             Edit
@@ -158,51 +167,53 @@ const rowActions = (row) => (
         </button>
     </div>
 );
-export default function Users() {
-    const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [pageinfo, setPageinfo] = useState({
-    totalPages: 1,
-  });
+    return (
+        <div className="bg-gray-50 ">
+            {/* <div className="p-4  shadow-md rounded-md"> */}
+            <div className="flex flex-col sm:flex-row justify-between gap-4 sm:items-center border-b p-2 border-gray-200">
+                <div className="flex flex-row sm:items-center">
+                    <h1 className="text-xl font-semibold text-gray-800">
+                        User
+                    </h1>
+                </div>
+                <div className="flex gap-2 items-center">
+                    <input type="text" placeholder="Search..." className="border rounded px-3 py-2 text-sm w-full max-w-xs focus:outline-none focus:ring-1 focus:ring-primary-500 " />
+                    <button className="bg-green-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-green-700 transition flex items-center gap-1 whitespace-nowrap text-sm md:text-base"
+                    >
+                        Add User
+                    </button>
+                </div>
+            </div>
+            <div className="pb-2">
+                <div className="rounded-lg">
+                    <CustomTable columns={mediaColumns} data={mediaData} rowActions={rowActions} />
+                </div>
+                <div className="bg-white sticky z-10 p-1 bottom-0">
+                    <Pagination
+                        currentPage={pageNumber}
+                        totalPages={pageinfo?.totalPages || 1}
+                        onPageSize={(size) => {
+                            setPageSize(size);
+                            setPageNumber(1); // Reset to first page when page size changes
+                        }}
+                        pageSize={pageSize}
+                        onPageChange={(e) => setPageNumber(e)}
+                        totalItems={mediaData.length}
+                    />
+                </div>
 
-  return (
-    <div className="bg-gray-50">
-      {/* <div className="p-4  shadow-md rounded-md"> */}
-         <div className="flex flex-col sm:flex-row justify-between gap-4 sm:items-center border-b p-2 border-gray-200">
-          <div className="flex flex-row sm:items-center">
-            <h1 className="text-xl font-semibold text-gray-800">
-              User
-            </h1>
-          </div>
-          <div className="flex gap-2 items-center">
-            <input type="text" placeholder="Search..." className="border rounded px-3 py-2 text-sm w-full max-w-xs focus:outline-none focus:ring-1 focus:ring-primary-500 " />
-            <button className="bg-green-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-green-700 transition flex items-center gap-1 whitespace-nowrap text-sm md:text-base"
-            >
-              Add User
-            </button>
-          </div>
-        </div> 
-        <div className="pb-2">
-          <div className="rounded-lg">
-            <CustomTable columns={mediaColumns} data={mediaData} rowActions={rowActions} />
-          </div>
-          <div className="bg-white sticky z-10 p-1 bottom-0">
-            <Pagination
-            currentPage={pageNumber}
-            totalPages={pageinfo?.totalPages || 1}
-            onPageSize={(size) => {
-              setPageSize(size);
-              setPageNumber(1); // Reset to first page when page size changes
-            }}
-            pageSize={pageSize}
-            onPageChange={(e) => setPageNumber(e)}
-            totalItems={mediaData.length}
-          />
-          </div>
-          
+            </div>
+            {/* </div> */}
+            <CommonModal
+                isOpen={isDeleteModalOpen}
+                title="User Modal"
+                content={
+                    <div><h1>User Modal Content</h1></div>
+                }
+                onClose={() => setIsDeleteModalOpen(false)}
+                cancelText="Close"
+                type="info" />
         </div>
-      {/* </div> */}
-    </div>
 
-  );
+    );
 }
