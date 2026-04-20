@@ -1,6 +1,9 @@
 import React from "react";
 import CustomTable from "../components/Customtable";
-
+import Pagination from "../components/Pagination";
+import { useState } from "react";
+import CommonModal from "../components/CommonModal";
+import Select from "../components/select";
 const dictionary = {
     common: {
         Keywords: "Keywords",
@@ -173,12 +176,33 @@ const rowActions = (row) => (
 );
 
 export default function Media() {
+    const [selectedFilter, setSelectedFilter] = useState(null);
+
+    const filterOptions = [
+        { value: "all", label: "All" },
+        { value: "farmers", label: "Farmers" },
+        { value: "employment", label: "Employment" },
+        { value: "agriculture", label: "Agriculture" },
+        { value: "education", label: "Education" },
+        { value: "health", label: "Health" },
+    ];
+
     return (
         <>
             <h2 className="text-xl font-semibold">Media Title</h2>
+            <div className="relative bg-white w-full p-4 rounded mb-4">
+                <h1 className="mb-3 font-semibold">Filter</h1>
+                <Select
+                    options={filterOptions}
+                    value={selectedFilter}
+                    onChange={setSelectedFilter}
+                    placeholder="Select a filter..."
+                    isClearable
+                />
+            </div>
             <div className="flex flex-col gap-4 w-full">
                 <div className="w-full">
-                    <div className="w-full mt-4">
+                    <div className="w-full">
                         <CustomTable columns={mediaColumns} data={mediaData} rowActions={rowActions} />
                     </div>
                 </div>
