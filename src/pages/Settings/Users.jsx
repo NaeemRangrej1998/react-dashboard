@@ -63,7 +63,7 @@ const mediaData = [
     {
         id: 9,
         title: "Cultural department announces new arts funding program",
-        keywords: ["Culture", "Arts", "Funding"],
+        keywords: [],
         date: "2024-08-04",
         email: "user9@example.com"
     },

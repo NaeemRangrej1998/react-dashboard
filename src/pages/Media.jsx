@@ -190,8 +190,7 @@ export default function Media() {
     return (
         <>
             <h2 className="text-xl font-semibold">Media Title</h2>
-            <div className="relative bg-white w-full p-4 rounded mb-4">
-                <h1 className="mb-3 font-semibold">Filter</h1>
+            <div className="relative bg-white w-full p-4 rounded mb-4 shadow grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Select
                     options={filterOptions}
                     value={selectedFilter}
@@ -199,12 +198,28 @@ export default function Media() {
                     placeholder="Select a filter..."
                     isClearable
                 />
+                <Select
+                    options={filterOptions}
+                    value={selectedFilter}
+                    onChange={setSelectedFilter}
+                    placeholder="Select a filter..."
+                    isClearable
+                />
+                <Select
+                    options={filterOptions}
+                    value={selectedFilter}
+                    onChange={setSelectedFilter}
+                    placeholder="Select a filter..."
+                    isClearable
+                />
+                
             </div>
             <div className="flex flex-col gap-4 w-full">
-                <div className="w-full">
-                    <div className="w-full">
-                        <CustomTable columns={mediaColumns} data={mediaData} rowActions={rowActions} />
-                    </div>
+                <div className="w-full bg-white  rounded  shadow-md">
+                    <h1 className="p-2">Media Page</h1>
+                        <div>
+                            <CustomTable columns={mediaColumns} data={mediaData} rowActions={rowActions} />
+                        </div>
                 </div>
             </div>
         </>

@@ -29,26 +29,30 @@ export default function CustomTable({
     return (
         <div
             className="w-full overflow-x-auto"
-           
+
         >
             <table className="w-full min-w-full text-sm text-left border-collapse">
-                <thead className="bg-gray-100 select-none border-b">
+                <thead className="z-0 top-0 bg-gray-100 select-none">
                     <tr>
                         <th
-                            className="border-b px-2 text-center bg-gray-100 sticky top-0 z-20"
-                            style={{ width: "48px" }}
+                            className="border-b px-2 text-center bg-gray-100"
+                            style={{
+                                width: "48px", position: "sticky",
+                                left: 0,
+                                zIndex: 0,
+                            }}
                         >
                             <input
                                 type="checkbox"
                                 checked={allSelected}
                                 onChange={toggleSelectAll}
-                                className="accent-primary-500"
+                                className="accent-primary-500 flex mx-auto"
                             />
                         </th>
                         {columns.map((col) => (
                             <th
                                 key={col.key}
-                                className="text-base font-semibold text-gray-600 whitespace-nowrap px-2 py-4 bg-gray-100 sticky top-0 z-10"
+                                className="border-b py-4 text-base font-semibold text-gray-600 px-2 whitespace-nowrap"
                                 style={{
                                     minWidth: col.minWidth,
                                     maxWidth: col.maxWidth,
@@ -59,8 +63,13 @@ export default function CustomTable({
                         ))}
                         {rowActions && (
                             <th
-                                className="px-2 text-base text-gray-600 bg-gray-100 sticky top-0 z-10"
-                                style={{ width: "150px" }}
+                                className="border-b md:sticky px-2 text-base text-gray-600 bg-gray-100"
+                                style={{
+                                    width: "150px",
+                                    // position: "sticky",
+                                    right: -1,
+                                    zIndex: 0,
+                                }}
                             >
                                 Actions
                             </th>
@@ -74,21 +83,33 @@ export default function CustomTable({
                         return (
                             <tr
                                 key={row.id}
-                                className={`border-b hover:bg-gray-50 ${isSelected ? "bg-slate-50" : "bg-white"}`}
+                                className={`group border-b hover:bg-gray-50 ${isSelected ? "bg-slate-50" : "bg-white"}`}
+                                style={{ height: "80px" }}
                             >
-                                <td className="px-2 py-2 text-center">
+                                <td
+                                    style={{
+                                        width: "48px",
+                                        position: "sticky",
+                                        left: 0,
+                                        zIndex: 10,
+                                    }}
+                                    className={"text-center  bg-white group-hover:bg-gray-50 "}
+                                >
+                                    <div className="flex justify-center items-center h-full">
                                     <input
                                         type="checkbox"
                                         checked={isSelected}
                                         onChange={() => toggleSelectOne(row)}
                                         className="accent-primary-500"
                                     />
+                                    </div>
                                 </td>
 
                                 {columns.map((col) => (
                                     <td
                                         key={col.key}
-                                        className="px-2 py-2 text-base text-muted"
+                                        className={"px-2 text-base py-2 overflow-hidden dark:group-hover:bg-gray-700 text-muted"}
+
                                         style={{ minWidth: col.minWidth, maxWidth: col.maxWidth }}
                                     >
                                         {col.render
@@ -97,7 +118,15 @@ export default function CustomTable({
                                     </td>
                                 ))}
                                 {rowActions && (
-                                    <td className="px-2 py-2 " >
+                                    <td
+                                        className="px-2 text-left md:sticky  bg-white group-hover:bg-gray-50"
+                                        style={{
+                                            // position: "sticky",
+                                            right: 0,
+                                            width: "150px",
+                                            zIndex: 10,
+                                        }}
+                                    >
                                         {rowActions(row)}
                                     </td>
                                 )}
