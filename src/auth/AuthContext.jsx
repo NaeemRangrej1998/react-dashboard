@@ -76,47 +76,20 @@ export function AuthProvider({ children }) {
   const value = useMemo(() => ({
     user,
     isAuthenticated: Boolean(user),
-    login: ({ username, password, role, pages, pagePermissions }) => {
-      if (!username.trim() || !password.trim() || !role || !pages?.length) {
+    login: (sessionUser) => {
+      const isValidSessionUser =
+        sessionUser &&
+        typeof sessionUser.username === "string" &&
+        sessionUser.role &&
+        typeof sessionUser.role.role === "string" &&
+        Array.isArray(sessionUser.role.permission);
+
+      if (!isValidSessionUser) {
         return {
           ok: false,
-          message: "Username, password, role, and at least one page are required.",
+          message: "Invalid login payload.",
         };
       }
-
-      const assignedPages = pages.map((page) => ({
-        page: page.value,
-        label: page.label,
-        permissions: (pagePermissions[page.value] ?? []).map((permission) => permission.value),
-      }));
-
-      const hasMissingPermissions = assignedPages.some((item) => item.permissions.length === 0);
-
-      if (hasMissingPermissions) {
-        return {
-          ok: false,
-          message: "Please assign at least one permission for every selected page.",
-        };
-      }
-
-      const permission = assignedPages.map((item, index) => ({
-        moduleName: item.label,
-        id: index + 1,
-        accessType: {
-          view: item.permissions.includes("view"),
-          add: item.permissions.includes("add"),
-          edit: item.permissions.includes("edit"),
-          delete: item.permissions.includes("delete"),
-        },
-      }));
-
-      const sessionUser = {
-        username: username.trim(),
-        role: {
-          role: role.value,
-          permission,
-        },
-      };
 
       setUser(sessionUser);
       setCookie(AUTH_COOKIE_NAME, JSON.stringify(sessionUser));

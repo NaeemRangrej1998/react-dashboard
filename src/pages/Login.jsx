@@ -73,7 +73,45 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = login(form);
+
+    if (!form.username.trim() || !form.password.trim() || !form.role || !form.pages.length) {
+      setError("Username, password, role, and at least one page are required.");
+      return;
+    }
+
+    const permission = form.pages.map((page, index) => {
+      const selectedPermissions = form.pagePermissions[page.value] ?? [];
+
+      return {
+        moduleName: page.label,
+        id: index + 1,
+        accessType: {
+          view: selectedPermissions.some((item) => item.value === "view"),
+          add: selectedPermissions.some((item) => item.value === "add"),
+          edit: selectedPermissions.some((item) => item.value === "edit"),
+          delete: selectedPermissions.some((item) => item.value === "delete"),
+        },
+      };
+    });
+
+    const hasMissingPermissions = permission.some((item) =>
+      Object.values(item.accessType).every((isAllowed) => !isAllowed),
+    );
+
+    if (hasMissingPermissions) {
+      setError("Please assign at least one permission for every selected page.");
+      return;
+    }
+
+    const sessionUser = {
+      username: form.username.trim(),
+      role: {
+        role: form.role.value,
+        permission,
+      },
+    };
+
+    const result = login(sessionUser);
 
     if (!result.ok) {
       setError(result.message);
